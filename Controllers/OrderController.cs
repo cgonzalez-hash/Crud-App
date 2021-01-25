@@ -52,8 +52,6 @@ namespace crud_app_take2.Controllers
         }
 
         // POST: Order/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
@@ -86,8 +84,6 @@ namespace crud_app_take2.Controllers
         }
 
         // POST: Order/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
