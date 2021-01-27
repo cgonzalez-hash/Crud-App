@@ -7,9 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using crud_app_take2.Models;
-using crud_app_take2.Areas.Identity.Data;
-
-
 namespace crud_app_take2
 {
     public class Startup
@@ -27,7 +24,7 @@ namespace crud_app_take2
             services.AddDbContext<CrudAppContext>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("CrudDb")));
 
-            
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -58,8 +55,7 @@ namespace crud_app_take2
             }
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

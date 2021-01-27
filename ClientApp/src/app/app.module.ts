@@ -9,6 +9,13 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { ProductsComponent } from './products/products.component';
+import { OrdersComponent } from './orders/orders.component';
+import { UsersComponent } from './users/users.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 @NgModule({
   declarations: [
@@ -16,16 +23,27 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    ProductsComponent,
+    OrdersComponent,
+    UsersComponent,
+    ShoppingCartComponent,
+    LoginPageComponent,
+    AdminPanelComponent,
+    RegisterUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+      { path: '', component: ProductsComponent, pathMatch: 'full' },
+      { path: 'orders', component: OrdersComponent },
+      { path: 'user', component: UsersComponent },
+      { path: 'login', component: LoginPageComponent },
+      { path: 'register-user', component: RegisterUserComponent },
+      { path: 'cart', component: ShoppingCartComponent },
+      { path: 'admin', component: AdminPanelComponent },
     ])
   ],
   providers: [],

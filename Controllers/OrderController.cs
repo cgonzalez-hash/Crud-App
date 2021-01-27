@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using crud_app_take2.Models;
-
+using Microsoft.AspNetCore.Authorization;
 namespace crud_app_take2.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly CrudAppContext _context;
