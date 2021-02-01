@@ -10,14 +10,15 @@ export class ProductsService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     
   };
-  private productUri: string = "api/Products"
+  private productUri: string = "api/products"
   constructor(private http: HttpClient) { }
   getProduct(userId:number):Observable<Product>{
     const url = `${this.productUri}/${userId}`
     return this.http.get<Product>(url)
   }
   getProducts():Observable<Product[]>{
-    return this.http.get<Product[]>(this.productUri)
+    const url = `${this.productUri}/index`
+    return this.http.get<Product[]>(url)
   }
   deleteProduct(userId: number):Observable<Product>{
     console.log("Service Deleting")

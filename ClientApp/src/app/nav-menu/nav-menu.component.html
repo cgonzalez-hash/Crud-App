@@ -28,21 +28,22 @@
             <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/user']"
-              >Profile</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/orders']"
+            <a class="nav-link text-dark" [routerLink]="['/Orders']"
               >Orders</a
             >
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/cart']"
-              >Shopping Cart</a
+            <a class="nav-link text-dark" [routerLink]="['/Users']"
+              >Users</a
+            >
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/Cart']"
+              >Cart</a
             >
           </li>
         </ul>
+        <app-login-menu></app-login-menu>
       </div>
     </div>
   </nav>

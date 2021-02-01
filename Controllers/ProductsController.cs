@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,11 @@ using crud_app_take2.Models;
 
 namespace crud_app_take2.Controllers
 {
+    [Route("api/[controller]")]  
+    [ApiController]
     public class ProductsController : Controller
     {
+      
         private readonly CrudAppContext _context;
 
         public ProductsController(CrudAppContext context)
@@ -19,12 +23,14 @@ namespace crud_app_take2.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Products>>> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return await _context.Products.ToListAsync();
         }
 
         // GET: Products/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -36,12 +42,12 @@ namespace crud_app_take2.Controllers
                 .FirstOrDefaultAsync(m => m.ProductsId == id);
             if (products == null)
             {
-                return NotFound();
+                return NotFound();     
             }
 
             return View(products);
         }
-
+ 
         // GET: Products/Create
         public IActionResult Create()
         {

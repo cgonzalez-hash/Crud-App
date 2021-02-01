@@ -24,9 +24,8 @@ namespace crud_app_take2.Migrations
                 {
                     b.Property<long>("OrderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
-
+                        .HasColumnType("bigint");
+                        
                     b.Property<string>("OrderDetails")
                         .HasColumnType("nvarchar(max)");
 
@@ -50,8 +49,7 @@ namespace crud_app_take2.Migrations
                 {
                     b.Property<long>("ProductsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -74,8 +72,7 @@ namespace crud_app_take2.Migrations
                 {
                     b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .UseIdentityColumn();
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
