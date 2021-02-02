@@ -30,7 +30,9 @@ export enum AuthenticationResultStatus {
 }
 
 export interface IUser {
+  sub?: string;
   name?: string;
+
 }
 
 @Injectable({

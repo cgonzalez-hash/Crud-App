@@ -1,1 +1,11 @@
-<p>shopping-cart works!</p>
+
+
+<mat-card *ngFor="let cart of cartProducts" class="cart">  
+    <div class="titlerow">{{cart?.name}}<span class="space"></span> <mat-icon (click)="deleteProduct(cart.cartProductId)">delete</mat-icon></div>
+    <mat-divider></mat-divider>  
+    <div class="titlerow"><span class="space"></span> Price: {{cart?.price}} </div>
+</mat-card>
+<mat-card ><span class="checkout-container">
+    <button mat-raised-button color="primary"(click)="checkout()">checkout</button>
+   </span>
+</mat-card>

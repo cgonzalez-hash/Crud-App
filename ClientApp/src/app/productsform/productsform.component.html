@@ -1,0 +1,41 @@
+<form [formGroup]="productForm">
+    <h2 mat-dialog-title *ngIf="isEdit">Edit Product</h2>
+    <h2 mat-dialog-title *ngIf="!isEdit">New Product</h2>
+    
+    <mat-dialog-content>
+      
+        <mat-form-field>
+            <input matInput
+                    placeholder="Product Name"
+                    formControlName="name" 
+                    required 
+                    alphaNumeric>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                    placeholder="Product Description"
+                    formControlName="description" 
+                    required
+                    alphaNumeric>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                    placeholder="Price"
+                    formControlName="price" 
+                    required
+                    alphaNumeric>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                    placeholder="Quantity"
+                    formControlName="quantityAvailable" 
+                    required
+                    alphaNumeric>
+        </mat-form-field>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <button class="mat-raised-button mat-primary"(click)="save(true)" *ngIf="isEdit">Delete</button>
+        <button class="mat-raised-button mat-primary"(click)="save(false)" [disabled]="productForm.invalid">Save</button>
+    </mat-dialog-actions>
+    </form>

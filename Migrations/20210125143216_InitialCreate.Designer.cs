@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using crud_app_take2.Models;
+using crud_app_take2.Data;
 
 namespace crud_app_take2.Migrations
 {
-    [DbContext(typeof(CrudAppContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20210125143216_InitialCreate")]
     partial class InitialCreate
     {

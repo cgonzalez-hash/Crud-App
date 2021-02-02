@@ -42,15 +42,15 @@ export class OrdersService {
     return this.http.put<Order>(url, Order)
   }
   
-  postOrder(userid:number, orderdetails: string, ordertotal: string,shipped:boolean):Observable<Order>
+  postOrder(orderdetails: string, ordertotal: string):Observable<Order>
   {
     const Order: Order = 
     {
       OrderId: 0,
-      UserId: userid,
+      UserId: 123,
       OrderDetails: orderdetails,
       OrderTotal: ordertotal,
-      Shipped: shipped
+      Shipped: false
     };
     return this.http.post<Order>(this.ordersUri, Order)
   }

@@ -10,8 +10,8 @@ using crud_app_take2.Data;
 namespace crud_app_take2.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210127194311_identityinitialcreat")]
-    partial class identityinitialcreat
+    [Migration("20210202023918_Relation-Update")]
+    partial class RelationUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -324,6 +324,56 @@ namespace crud_app_take2.Migrations.ApplicationDb
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("crud_app_take2.Models.Order", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("OrderDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderTotal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Shipped")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("crud_app_take2.Models.Products", b =>
+                {
+                    b.Property<long>("ProductsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantityAvailable")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductsId");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -373,6 +423,15 @@ namespace crud_app_take2.Migrations.ApplicationDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("crud_app_take2.Models.Order", b =>
+                {
+                    b.HasOne("crud_app_take2.Models.ApplicationUser", "applicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("applicationUser");
                 });
 #pragma warning restore 612, 618
         }

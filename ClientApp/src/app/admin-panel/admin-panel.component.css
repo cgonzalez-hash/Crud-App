@@ -1,0 +1,19 @@
+mat-card { margin: 10px}
+.titlerow {
+    display: inline-flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+.space {
+    flex-grow: 1;
+}
+.new-container  { 
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    
+    
+}
+mat-icon {
+    cursor: pointer;
+}

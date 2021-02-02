@@ -1,1 +1,11 @@
-<p>admin-panel works!</p>
+<mat-card ><span class="new-container">
+    <button mat-raised-button color="primary"(click)="openDialog(true)">New Product</button>
+   </span>
+</mat-card>
+<H2>Products</H2>
+<mat-card *ngFor="let product of products">
+    <div class="titlerow">{{product.name}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
+    <mat-divider></mat-divider>  
+<div class="titlerow">Quantity: {{product.quantityAvailable}}<span class="space"></span> Price: {{product.price}} </div>
+</mat-card>
+<H2>Orders</H2>

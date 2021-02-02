@@ -1,0 +1,28 @@
+<form [formGroup]="orderForm">
+    <h2 mat-dialog-title *ngIf="isEdit">Edit Order</h2>
+    <h2 mat-dialog-title *ngIf="!isEdit">New Order</h2>
+    
+    <mat-dialog-content>
+      
+        <mat-form-field>
+            <input matInput
+                    placeholder="Order Details"
+                    formControlName="OrderDetails" 
+                    required 
+                    alphaNumeric>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput
+                    placeholder="Order Total"
+                    formControlName="OrderTotal" 
+                    required
+                    alphaNumeric>
+        </mat-form-field>
+    <mat-checkbox formControlName="Shipped" *ngIf="isEdit" unchecked="false">Shipped</mat-checkbox>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <button class="mat-raised-button mat-primary"(click)="save(true)" *ngIf="isEdit">Delete</button>
+        <button class="mat-raised-button mat-primary"(click)="save(false)" [disabled]="orderForm.invalid">Save</button>
+    </mat-dialog-actions>
+    </form>

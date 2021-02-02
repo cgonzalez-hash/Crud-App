@@ -6,12 +6,12 @@ public class Order
     
     public long OrderId { get; set; }
 
-    public long UserId { get; set;}
+    public string UserId { get; set;}
     public string OrderDetails { get; set; }
     public string OrderTotal { get; set; }
     public bool Shipped { get; set; }
     [ForeignKey("UserId")]
-    public User User { get; set; }
+    public ApplicationUser applicationUser { get; set; }
 
 }
 

@@ -6,28 +6,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using crud_app_take2.Models;
+using crud_app_take2.Data;
 using Microsoft.AspNetCore.Authorization;
 namespace crud_app_take2.Controllers
 {
+    [Route("api/[controller]")] 
+    [ApiController]
     [Authorize]
     public class OrderController : Controller
     {
-        private readonly CrudAppContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public OrderController(CrudAppContext context)
+        public OrderController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: Order
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Order>>> Index()
         {
-            var crudAppContext = _context.Orders.Include(o => o.User);
-            return View(await crudAppContext.ToListAsync());
+            var applicationDbContext = _context.Orders.Include(o => o.applicationUser).ToListAsync();
+            return await applicationDbContext;
         }
 
         // GET: Order/Details/5
-        public async Task<IActionResult> Details(long? id)
+        [HttpGet]
+        public async Task<ActionResult<Order>> Details(long? id)
         {
             if (id == null)
             {
@@ -35,27 +40,20 @@ namespace crud_app_take2.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.User)
+                .Include(o => o.applicationUser)
                 .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
                 return NotFound();
             }
 
-            return View(order);
-        }
-
-        // GET: Order/Create
-        public IActionResult Create()
-        {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
-            return View();
+            return order;
         }
 
         // POST: Order/Create
-        [HttpPost]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
+        public async Task<ActionResult<Order>> Create([Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -64,30 +62,13 @@ namespace crud_app_take2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return View(order);
-        }
-
-        // GET: Order/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return View(order);
+            return order;
         }
 
         // POST: Order/Edit/5
-        [HttpPost]
+        [HttpPut, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
+        public async Task<ActionResult<Order>> Edit(long id, [Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
         {
             if (id != order.OrderId)
             {
@@ -115,26 +96,7 @@ namespace crud_app_take2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return View(order);
-        }
-
-        // GET: Order/Delete/5
-        public async Task<IActionResult> Delete(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
+            return order;
         }
 
         // POST: Order/Delete/5

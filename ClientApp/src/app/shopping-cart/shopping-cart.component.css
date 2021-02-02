@@ -1,0 +1,14 @@
+mat-card { margin: 10px}
+.space {
+    flex-grow: 1;
+}
+
+mat-icon {
+    cursor: pointer;
+}
+
+.titlerow {
+    display: inline-flex;
+    width: 100%;
+    justify-content: flex-end;
+}

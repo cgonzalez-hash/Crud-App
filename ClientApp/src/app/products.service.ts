@@ -17,38 +17,41 @@ export class ProductsService {
     return this.http.get<Product>(url)
   }
   getProducts():Observable<Product[]>{
-    const url = `${this.productUri}/index`
-    return this.http.get<Product[]>(url)
+  
+    return this.http.get<Product[]>(this.productUri)
   }
-  deleteProduct(userId: number):Observable<Product>{
+  deleteProduct(productid: number):Observable<Product>{
     console.log("Service Deleting")
-    const url = `${this.productUri}/${userId}`
+    const url = `${this.productUri}/${productid}`
     console.log(url)
     return this.http.delete<Product>(url)
     
   }
-  updateProduct(id: number, name: string, price: number,description:string): Observable<Product>{
+  updateProduct(id: number, name: string, price: number, description:string, quantity:number): Observable<Product>{
     const Product: Product = 
     {
-    ProductId: id,
-    Name: name,
-    Price: price,
-    Description: description
+    productsId: id,
+    name: name,
+    price: price,
+    description: description,
+    quantityAvailable: quantity
     };
   
     const url = `${this.productUri}/${id}`
     return this.http.put<Product>(url, Product)
   }
   
-  postProduct(name: string, price: number,description:string):Observable<Product>
+  postProduct(name: string, price: number,description:string, quantity:number):Observable<Product>
   {
+    const url = `${this.productUri}`
     const Product: Product = 
     {
-      ProductId: 0,
-      Name: name,
-      Price: price,
-      Description: description
+    productsId: 0,
+    name: name,
+    price: price,
+    description: description,
+    quantityAvailable: quantity
     };
-    return this.http.post<Product>(this.productUri, Product)
+    return this.http.post<Product>(url, Product)
   }
 }

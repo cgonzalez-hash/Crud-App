@@ -8,5 +8,9 @@ namespace crud_app_take2.Models
 {
     public class ApplicationUser : IdentityUser
     {
+
+        public ICollection<Order> Orders { get; set;}
+        
+        public ICollection<CartProduct> cartProduct {get; set;}
     }
 }
