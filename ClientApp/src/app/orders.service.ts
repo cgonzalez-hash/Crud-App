@@ -11,7 +11,7 @@ export class OrdersService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     
   };
-  private ordersUri: string = "api/Orders"
+  private ordersUri: string = "api/Order"
   constructor(private http: HttpClient) { }
   getOrder(orderid:number):Observable<Order>{
     const url = `${this.ordersUri}/${orderid}`
@@ -27,7 +27,7 @@ export class OrdersService {
     return this.http.delete<Order>(url)
     
   }
-  updateOrder(orderid: number, userid:number, orderdetails: string, ordertotal: string,shipped:boolean): Observable<Order>{
+  updateOrder(orderid: number, userid:string, orderdetails: string, ordertotal: string,shipped:boolean): Observable<Order>{
     const Order: Order = 
     {
     OrderId: orderid,
@@ -42,12 +42,12 @@ export class OrdersService {
     return this.http.put<Order>(url, Order)
   }
   
-  postOrder(orderdetails: string, ordertotal: string):Observable<Order>
+  postOrder(orderdetails: string, userid: string, ordertotal: string):Observable<Order>
   {
     const Order: Order = 
     {
       OrderId: 0,
-      UserId: 123,
+      UserId: userid,
       OrderDetails: orderdetails,
       OrderTotal: ordertotal,
       Shipped: false

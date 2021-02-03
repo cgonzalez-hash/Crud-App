@@ -12,7 +12,6 @@ namespace crud_app_take2.Controllers
 {
     [Route("api/[controller]")] 
     [ApiController]
-    [Authorize]
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -31,7 +30,7 @@ namespace crud_app_take2.Controllers
         }
 
         // GET: Order/Details/5
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Order>> Details(long? id)
         {
             if (id == null)
@@ -52,8 +51,7 @@ namespace crud_app_take2.Controllers
 
         // POST: Order/Create
         [HttpPost, ActionName("Create")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Order>> Create([Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
+        public async Task<ActionResult<Order>> Create(Order order)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +98,7 @@ namespace crud_app_take2.Controllers
         }
 
         // POST: Order/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpDelete("{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {

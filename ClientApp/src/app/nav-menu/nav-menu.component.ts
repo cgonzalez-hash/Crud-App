@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { AuthorizeService } from "../../api-authorization/authorize.service";
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -7,7 +7,8 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
   isExpanded = false;
-
+  
+  constructor(private authService: AuthorizeService) {}
   collapse() {
     this.isExpanded = false;
   }
@@ -15,4 +16,5 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+  authorized_ = this.authService.isAuthenticated();
 }

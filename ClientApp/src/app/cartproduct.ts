@@ -1,5 +1,5 @@
 export class CartProduct {
-    CartProductId: number;
+    cartProductId: number;
     UserId: string = "";
     productId: number;
 }

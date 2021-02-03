@@ -38,7 +38,7 @@ isComplete: boolean;
     })
 
   }
-  updateOrder(orderid: number, userid: number, orderdetails: string, ordertotal: number, shipped: boolean): void {
+  updateOrder(orderid: number, userid: string, orderdetails: string, ordertotal: number, shipped: boolean): void {
     const index = this.orders.indexOf(this.orders.find(_ => orderid === _.OrderId))
     this.orderservice.updateOrder(orderid,userid,orderdetails,orderdetails, shipped).subscribe(_ => {
       console.log(_)
@@ -58,9 +58,7 @@ isComplete: boolean;
   this.orderservice.deleteOrder(orderid).subscribe(t => this.orders.splice(index,1));
 
   }
-  newOrder(orderdetails: string, ordertotal: string, ): void {
-    this.orderservice.postOrder(orderdetails,ordertotal).subscribe(_ => this.orders.push(_))
-  }
+ 
   openDialog(isProduct: boolean) {
 
     const dialogConfig = new MatDialogConfig();
@@ -83,7 +81,7 @@ isComplete: boolean;
       dialogRef.afterClosed().subscribe(
         data => {
           if(data !== undefined){
-            this.newOrder(data.OrderDetails, data.OrderTotal)
+            //this.newOrder(data.OrderDetails, data.OrderTotal)
           }});
     }
    

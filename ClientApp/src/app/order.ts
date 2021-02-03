@@ -1,6 +1,6 @@
 export class Order {
     OrderId: number;
-    UserId: number;
+    UserId: string;
     OrderDetails: string = '';
     OrderTotal: string = '';
     Shipped: boolean;

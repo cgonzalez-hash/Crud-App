@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from "../products.service";
 import { Product } from "../product";
 import { CartproductService } from "../cartproduct.service";
-import { AuthorizeService, IUser } from "../../api-authorization/authorize.service";
-import { User, UserManager, WebStorageStateStore } from 'oidc-client';
+import { AuthorizeService } from "../../api-authorization/authorize.service";
+import {MatSnackBar} from '@angular/material/snack-bar';
+
+
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -14,7 +17,8 @@ export class ProductsComponent implements OnInit {
   userid: string
  
 
-  constructor(private productService: ProductsService, private cartProductService: CartproductService, private authService: AuthorizeService) { }
+  constructor(private productService: ProductsService, 
+    private cartProductService: CartproductService, private authService: AuthorizeService, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.getProducts();
@@ -27,7 +31,23 @@ export class ProductsComponent implements OnInit {
   }
   addToCart(productid: number): void {
     console.log(this.userid)
-    this.cartProductService.postCartProduct(this.userid,productid).subscribe(_ => console.log(_))
+    const subscription = this.cartProductService.postCartProduct(this.userid,productid).subscribe(
+      (data) => {
+        console.log(data)
+        this._snackBar.open('Added to Cart Succesfully', 'Close', {
+          duration: 5000,
+        });
+
+      },
+      (error) => {
+        console.log(error)
+        this._snackBar.open('Failed to Add Item', 'Close', {
+          duration: 5000,
+        });
+
+      }
+    )
+    subscription.add(() => console.log('complete'))
   }
 
 }

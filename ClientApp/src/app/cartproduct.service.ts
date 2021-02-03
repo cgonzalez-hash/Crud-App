@@ -31,7 +31,7 @@ export class CartproductService {
   updateCartProduct(cartproductid: number,userid: string, productid: number): Observable<CartProduct>{
     const CartProduct: CartProduct = 
     {
-      CartProductId: cartproductid,
+      cartProductId: cartproductid,
       UserId: userid,
       productId: productid
     };
@@ -44,7 +44,7 @@ export class CartproductService {
   {
     const CartProduct: CartProduct = 
     {
-      CartProductId: 0,
+      cartProductId: 0,
       UserId: userid,
       productId: productid
      
