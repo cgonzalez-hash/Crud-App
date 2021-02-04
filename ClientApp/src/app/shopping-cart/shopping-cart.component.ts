@@ -83,7 +83,7 @@ checkOut(): void {
   const ordertotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
     return a + b
   }).toString();
-  const orderdetails = this.cartProducts.toString();
+  const orderdetails = JSON.stringify(this.cartProducts);
   console.log(ordertotal)
   const subscription = this.orderService.postOrder(orderdetails,this.userid,ordertotal).subscribe((data) => {
     console.log(data)

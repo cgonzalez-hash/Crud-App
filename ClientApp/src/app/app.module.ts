@@ -28,7 +28,9 @@ import { ProductsformComponent } from './productsform/productsform.component';
 import { OrderformComponent } from './orderform/orderform.component';
 import { LoadingInterceptorService } from './loading-interceptor.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTabsModule} from '@angular/material/tabs';
 import { LoadingService } from './loading.service';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -61,6 +63,8 @@ import { LoadingService } from './loading.service';
     MatDialogModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
+    MatPaginatorModule,
     RouterModule.forRoot([
       { path: '', component: ProductsComponent, pathMatch: 'full' },
       { path: 'Admin', component: AdminPanelComponent, canActivate: [AuthorizeGuard] },

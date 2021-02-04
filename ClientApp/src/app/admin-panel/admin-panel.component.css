@@ -10,7 +10,7 @@ mat-card { margin: 10px}
 .new-container  { 
     display: inline-flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
     
     
 }

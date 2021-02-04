@@ -17,17 +17,39 @@ export class AdminPanelComponent implements OnInit {
 products: Product[];
 orders: Order[];
 isComplete: boolean;
-
+list: any[] = [];
+ordersLength: number;
+productsLength: number;
   constructor(private productService: ProductsService, private dialog: MatDialog, 
     private orderservice: OrdersService, private loaderService:LoadingService ) { }
 
   ngOnInit() {
     this.getProducts();
+    this.getOrders();
+ 
   }
 
   getProducts(): void
    {
-    this.productService.getProducts().subscribe(_ => this.products = _)
+    this.productService.getProducts().subscribe(_ => {
+      this.products = _
+      this.productsLength = this.products.length;
+    })
+  }
+  async getOrders(): Promise<void> {
+   const subscription = this.orderservice.getOrders().subscribe(  
+      (data) => {
+        this.orders = data
+    },
+      (error) => {
+        console.log("Error")
+      }
+    )
+    subscription.add(()=>{
+      this.ordersLength = this.orders.length;
+      console.log(this.orders)
+
+    })
   }
   newProduct(name: string, price: number,description:string, quantity:number): void {
     this.productService.postProduct(name,price, description, quantity).subscribe(_ => this.products.push(_))

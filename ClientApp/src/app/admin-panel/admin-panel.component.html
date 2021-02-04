@@ -1,12 +1,31 @@
 <mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
-<mat-card ><span class="new-container">
-    <button mat-raised-button color="primary"(click)="openDialog(true)">New Product</button>
-   </span>
-</mat-card>
-<H2>Products</H2>
-<mat-card *ngFor="let product of products">
-    <div class="titlerow">{{product.name}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
-    <mat-divider></mat-divider>  
-<div class="titlerow">Quantity: {{product.quantityAvailable}}<span class="space"></span> Price: {{product.price}} </div>
-</mat-card>
-<H2>Orders</H2>
+<mat-tab-group [color]="primary" [backgroundColor]="accent">
+    <mat-tab label="Products">
+        <mat-card *ngFor="let product of products">
+            <div class="titlerow">{{product.name}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
+            <mat-divider></mat-divider>  
+        <div class="titlerow">Quantity: {{product.quantityAvailable}}<span class="space"></span> Price: {{product.price}} </div>
+        </mat-card>
+        <mat-card ><span class="new-container">
+            <mat-icon (click)="openDialog(true)">add</mat-icon>
+           </span>
+        </mat-card>
+            <mat-paginator [length]="productsLength"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+    </mat-tab>
+    <mat-tab label="Orders">
+        <mat-card *ngFor="let order of orders">
+            <div class="titlerow">Order Number {{order.orderId}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
+            <mat-divider></mat-divider>  
+        <div class="titlerow">Shipped: {{order.shipped}}<span class="space"></span> Total: {{order.orderTotal}} </div>
+        </mat-card>
+        <mat-paginator [length]="ordersLength"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+    </mat-tab>
+</mat-tab-group>
+
+
