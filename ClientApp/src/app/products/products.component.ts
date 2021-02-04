@@ -4,6 +4,7 @@ import { Product } from "../product";
 import { CartproductService } from "../cartproduct.service";
 import { AuthorizeService } from "../../api-authorization/authorize.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { LoadingService } from '../loading.service';
 
 
 
@@ -18,7 +19,8 @@ export class ProductsComponent implements OnInit {
  
 
   constructor(private productService: ProductsService, 
-    private cartProductService: CartproductService, private authService: AuthorizeService, private _snackBar: MatSnackBar) { }
+    private cartProductService: CartproductService, private authService: AuthorizeService, 
+    private _snackBar: MatSnackBar, private loaderService:LoadingService) { }
 
   ngOnInit() {
     this.getProducts();

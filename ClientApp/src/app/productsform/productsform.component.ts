@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Product } from '../product';
+import { LoadingService } from "../loading.service";
 
 @Component({
   selector: 'app-productsform',
@@ -17,7 +18,8 @@ export class ProductsformComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<ProductsformComponent>,
-    @Inject(MAT_DIALOG_DATA) data
+    @Inject(MAT_DIALOG_DATA) data,
+    private loaderService: LoadingService
   ) {
     console.log(data)
     const productForm: Product = {

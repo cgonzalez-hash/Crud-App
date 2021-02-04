@@ -8,7 +8,7 @@ import { LoadingService } from './loading.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingInterceptorService {
+export class LoadingInterceptorService implements HttpInterceptor {
 
   activeRequests: number = 0;
 

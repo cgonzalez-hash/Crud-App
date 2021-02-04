@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
 <mat-card ><span class="new-container">
     <button mat-raised-button color="primary"(click)="openDialog(true)">New Product</button>
    </span>

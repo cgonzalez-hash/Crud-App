@@ -27,7 +27,7 @@ export class ShoppingCartComponent implements OnInit {
   
 
   constructor(private cartProductService: CartproductService, private authService: AuthorizeService, private productService: ProductsService,
-     private orderService: OrdersService, private _snackBar: MatSnackBar) { }
+     private orderService: OrdersService, private _snackBar: MatSnackBar, private loaderService:LoadingService) { }
 
   ngOnInit() {
      
@@ -35,7 +35,6 @@ export class ShoppingCartComponent implements OnInit {
    .subscribe(
       (data) => {
           this.userid = data.sub
-          this.getCart();
           this.getProduct();
       },
       (error) => {
@@ -66,6 +65,7 @@ async getProduct(): Promise<void> {
     }
   )
   subscription.add(() => {
+    this.getCart();
     console.log('done')
   })
   
@@ -113,7 +113,7 @@ checkOut(): void {
   
 }
 
-filterProduct(): void  {
+ filterProduct(): void  {
 
   const newData = this.carts.map((item, row) => {
     const found = this.products.find((element) => item.productId == element.productsId);

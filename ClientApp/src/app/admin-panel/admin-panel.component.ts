@@ -6,6 +6,7 @@ import { OrderformComponent } from "../orderform/orderform.component";
 import {MatDialog, MatDialogConfig, MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { Order } from "../order";
 import { OrdersService } from "../orders.service";
+import { LoadingService } from '../loading.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -17,7 +18,8 @@ products: Product[];
 orders: Order[];
 isComplete: boolean;
 
-  constructor(private productService: ProductsService, private dialog: MatDialog, private orderservice: OrdersService ) { }
+  constructor(private productService: ProductsService, private dialog: MatDialog, 
+    private orderservice: OrdersService, private loaderService:LoadingService ) { }
 
   ngOnInit() {
     this.getProducts();
