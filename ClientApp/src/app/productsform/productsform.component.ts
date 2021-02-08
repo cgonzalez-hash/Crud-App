@@ -14,6 +14,7 @@ export class ProductsformComponent implements OnInit {
   productForm: FormGroup;
   newform: FormGroup;
   isEdit:boolean;
+  selectedFile: File;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,12 +23,13 @@ export class ProductsformComponent implements OnInit {
     private loaderService: LoadingService
   ) {
     console.log(data)
-    const productForm: Product = {
+    const productForm: any = {
       productsId: data.ProductId,
       name: data.Name,
       description: data.Description,
       price: data.Price,
-      quantityAvailable: data.Quantity    }
+      quantityAvailable: data.Quantity,
+      image: data.image    }
     this.createFormGroup(productForm);
     this.isEdit = data.isEdit;
    }
@@ -39,8 +41,9 @@ export class ProductsformComponent implements OnInit {
     this.dialogRef.close();
   }
   save(isDelete: boolean) {
-    const result: Product = Object.assign({}, this.productForm.value);
-    const product = { productid: result.productsId, name: result.name, description: result.description, price: result.price, quantity: result.quantityAvailable, isDelete: isDelete};
+    const result: any = Object.assign({}, this.productForm.value);
+    const product = { productid: result.productsId, name: result.name, description: result.description, price: result.price, quantity: result.quantityAvailable, image: result.image.files[0], isDelete: isDelete};
+    console.log( result.image.files[0])
     this.dialogRef.close(product);
   }
 

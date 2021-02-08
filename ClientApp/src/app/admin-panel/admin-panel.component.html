@@ -1,25 +1,28 @@
 <mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
 <mat-tab-group [color]="primary" [backgroundColor]="accent">
     <mat-tab label="Products">
-        <mat-card *ngFor="let product of products">
-            <div class="titlerow">{{product.name}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
+        <div>
+        <input matInput type="text" [(ngModel)]="term" placeholder="Search">
+        </div>
+        <mat-card *ngFor="let product of products | filter:term">
+            <div class="titlerow">{{product.name}}<span class="space"></span> <mat-icon (click)="deleteProduct(product.productsId)">delete</mat-icon><mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
             <mat-divider></mat-divider>  
-        <div class="titlerow">Quantity: {{product.quantityAvailable}}<span class="space"></span> Price: {{product.price}} </div>
+        <div class="titlerow">Quantity: {{product.quantityAvailable}}<span class="space"></span> Price: {{product.price | currency}} </div>
         </mat-card>
         <mat-card ><span class="new-container">
             <mat-icon (click)="openDialog(true)">add</mat-icon>
            </span>
         </mat-card>
-            <mat-paginator [length]="productsLength"
-                [pageSize]="10"
-                [pageSizeOptions]="[5, 10, 25, 100]">
-            </mat-paginator>
+        <mat-paginator [length]="productsLength"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
     </mat-tab>
     <mat-tab label="Orders">
         <mat-card *ngFor="let order of orders">
-            <div class="titlerow">Order Number {{order.orderId}}<span class="space"></span> <mat-icon (click)="openDialogEdit(product)">edit</mat-icon></div>
+            <div class="titlerow">Order Number {{order.orderId}}<span class="space"></span> <mat-icon (click)="deleteOrder(order.orderId)">delete</mat-icon> <mat-icon (click)="openDialogEditOrder(order)">edit</mat-icon></div>
             <mat-divider></mat-divider>  
-        <div class="titlerow">Shipped: {{order.shipped}}<span class="space"></span> Total: {{order.orderTotal}} </div>
+        <div class="titlerow">Shipped: {{order.shipped}}<span class="space"></span> Total: {{order.orderTotal | currency}} </div>
         </mat-card>
         <mat-paginator [length]="ordersLength"
               [pageSize]="10"

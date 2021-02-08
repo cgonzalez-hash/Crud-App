@@ -64,9 +64,9 @@ namespace crud_app_take2.Controllers
         }
 
         // POST: Order/Edit/5
-        [HttpPut, ActionName("Edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Order>> Edit(long id, [Bind("OrderId,UserId,OrderDetails,OrderTotal,Shipped")] Order order)
+        [HttpPut("{id}")]
+        
+        public async Task<ActionResult> Edit(long id, Order order)
         {
             if (id != order.OrderId)
             {
@@ -94,18 +94,17 @@ namespace crud_app_take2.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return order;
+            return NoContent();
         }
 
         // POST: Order/Delete/5
-        [HttpDelete("{id}"), ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteConfirmed(long id)
         {
             var order = await _context.Orders.FindAsync(id);
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
 
         private bool OrderExists(long id)

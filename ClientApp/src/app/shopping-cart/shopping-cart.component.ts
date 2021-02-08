@@ -8,6 +8,7 @@ import { OrdersService } from "../orders.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable, Subject,  of as observableOf } from "rxjs";
 import { LoadingService } from "../loading.service";
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -24,6 +25,7 @@ export class ShoppingCartComponent implements OnInit {
   quantityAvailable: number,
   cartProductId: number,  UserId: string,
   productId: number}>
+  orderTotal: string;
   
 
   constructor(private cartProductService: CartproductService, private authService: AuthorizeService, private productService: ProductsService,
@@ -51,6 +53,9 @@ async getCart(): Promise<void> {
   this.cartProductService.getCartProduct(this.userid).subscribe(_=>{
     this.carts = _;
     this.filterProduct();
+    this.orderTotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
+      return a + b
+    }).toString();
     
   })
 }

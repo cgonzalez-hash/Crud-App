@@ -27,31 +27,33 @@ export class ProductsService {
     return this.http.delete<Product>(url)
     
   }
-  updateProduct(id: number, name: string, price: number, description:string, quantity:number): Observable<Product>{
+  updateProduct(id: number, name: string, price: number, description:string, quantity:number, image: File): Observable<Product>{
     const Product: Product = 
     {
     productsId: id,
     name: name,
     price: price,
     description: description,
-    quantityAvailable: quantity
+    quantityAvailable: quantity,
+    Image: image
     };
   
     const url = `${this.productUri}/${id}`
     return this.http.put<Product>(url, Product)
   }
   
-  postProduct(name: string, price: number,description:string, quantity:number):Observable<Product>
+  postProduct(name: string, price: number,description:string, quantity:number, image: File):Observable<Product>
   {
     const url = `${this.productUri}`
-    const Product: Product = 
-    {
-    productsId: 0,
-    name: name,
-    price: price,
-    description: description,
-    quantityAvailable: quantity
-    };
-    return this.http.post<Product>(url, Product)
+   
+
+    var formData = new FormData();
+    formData.append("name", name)
+    formData.append("price", price.toString())
+    formData.append("description", description)
+    formData.append("quantityAvailable", quantity.toString())
+    formData.append("image", image, image.name)
+ 
+    return this.http.post<Product>(url, formData)
   }
 }

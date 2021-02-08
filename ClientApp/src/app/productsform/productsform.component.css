@@ -1,3 +1,6 @@
 .space {
     flex-grow: 1;
 }
+mat-icon {
+    cursor: pointer;
+}

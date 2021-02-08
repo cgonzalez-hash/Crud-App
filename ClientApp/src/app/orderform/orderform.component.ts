@@ -17,11 +17,11 @@ export class OrderformComponent implements OnInit {
   ) {
     console.log(data)
     const orderForm: Order = {
-      OrderId: data.OrderId,
-      UserId: data.UserId,
-      OrderDetails: data.OrderDetails,
-      OrderTotal: data.OrderTotal,
-      Shipped: data.Shipped}
+      orderId: data.ord.orderId,
+      UserId: data.ord.userId,
+      OrderDetails: data.ord.orderDetails,
+      OrderTotal: data.ord.orderTotal,
+      Shipped: data.ord.shipped}
     this.createFormGroup(orderForm);
     this.isEdit = data.isEdit;
    }
@@ -34,8 +34,9 @@ export class OrderformComponent implements OnInit {
     
   }
   save(isDelete: boolean) {
+    console.log(this.orderForm.value)
     const result: Order = Object.assign({}, this.orderForm.value);
-    const product = { OrderId: result.OrderId, UserId: result.UserId, OrderDetails: result.OrderDetails, OrderTotal: result.OrderTotal, Shipped: result.Shipped, isDelete: isDelete};
+    const product = { orderId: result.orderId, UserId: result.UserId, OrderDetails: result.OrderDetails, OrderTotal: result.OrderTotal, Shipped: result.Shipped, isDelete: isDelete};
     this.dialogRef.close(product);
   }
   ngOnInit() {

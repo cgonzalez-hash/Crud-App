@@ -6,13 +6,6 @@
       
         <mat-form-field>
             <input matInput
-                    placeholder="Order Details"
-                    formControlName="OrderDetails" 
-                    required 
-                    alphaNumeric>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput
                     placeholder="Order Total"
                     formControlName="OrderTotal" 
                     required
@@ -22,7 +15,6 @@
     </mat-dialog-content>
     
     <mat-dialog-actions>
-        <button class="mat-raised-button mat-primary"(click)="save(true)" *ngIf="isEdit">Delete</button>
         <button class="mat-raised-button mat-primary"(click)="save(false)" [disabled]="orderForm.invalid">Save</button>
     </mat-dialog-actions>
     </form>

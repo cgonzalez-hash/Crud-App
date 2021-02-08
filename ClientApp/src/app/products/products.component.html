@@ -1,17 +1,17 @@
-
+<mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
 <mat-card class="product-card" *ngFor="let product of products">
     <mat-card-header>
       <mat-card-title>{{product.name}}</mat-card-title>
       <mat-card-subtitle>{{product.description}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img mat-card-image [src]="getPhoto(product.image)" alt="Photo of a Shiba Inu">
     <mat-card-content>
       <p>
-      Price: {{product.price}}
+      Price: {{product.price | currency}}
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button color="primary" (click)="addToCart(product.productsId)">Add To Cart</button>
+      <button mat-flat-button color="primary" (click)="addToCart(product.productsId)" *ngIf="authorized_ | async">Add To Cart</button>
     </mat-card-actions>
 </mat-card>
 

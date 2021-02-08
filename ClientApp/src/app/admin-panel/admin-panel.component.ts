@@ -7,6 +7,10 @@ import {MatDialog, MatDialogConfig, MAT_DIALOG_DATA, MatDialogRef} from "@angula
 import { Order } from "../order";
 import { OrdersService } from "../orders.service";
 import { LoadingService } from '../loading.service';
+import { FilterPipe } from "../filter.pipe";
+import {map, startWith} from 'rxjs/operators';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-admin-panel',
@@ -20,6 +24,8 @@ isComplete: boolean;
 list: any[] = [];
 ordersLength: number;
 productsLength: number;
+
+
   constructor(private productService: ProductsService, private dialog: MatDialog, 
     private orderservice: OrdersService, private loaderService:LoadingService ) { }
 
@@ -51,19 +57,20 @@ productsLength: number;
 
     })
   }
-  newProduct(name: string, price: number,description:string, quantity:number): void {
-    this.productService.postProduct(name,price, description, quantity).subscribe(_ => this.products.push(_))
+  newProduct(name: string, price: number,description:string, quantity:number, image: File): void {
+    console.log(image)
+    this.productService.postProduct(name,price, description, quantity, image).subscribe(_ => this.products.push(_))
   }
-  updateProduct(productid: number, name: string, description: string, price: number, quantity: number): void {
+  updateProduct(productid: number, name: string, description: string, price: number, quantity: number, image: File): void {
     const index = this.products.indexOf(this.products.find(_ => productid === _.productsId))
-    this.productService.updateProduct(productid,name,price,description,quantity).subscribe(_ => {
+    this.productService.updateProduct(productid,name,price,description,quantity, image).subscribe(_ => {
       console.log(_)
       this.products[index] = _
     })
 
   }
   updateOrder(orderid: number, userid: string, orderdetails: string, ordertotal: number, shipped: boolean): void {
-    const index = this.orders.indexOf(this.orders.find(_ => orderid === _.OrderId))
+    const index = this.orders.indexOf(this.orders.find(_ => orderid === _.orderId))
     this.orderservice.updateOrder(orderid,userid,orderdetails,orderdetails, shipped).subscribe(_ => {
       console.log(_)
       this.orders[index] = _
@@ -71,15 +78,33 @@ productsLength: number;
 
   }
   deleteProduct(productid: number): void {
-    const index = this.products.indexOf(this.products.find(_ => productid === _.productsId))
+    const index = this.products.indexOf(this.products.find(_ => {
+      productid === _.productsId
+      console.log
+    }))
   console.log(index)
   this.productService.deleteProduct(productid).subscribe(t => this.products.splice(index,1));
 
   }
   deleteOrder(orderid: number): void {
-    const index = this.orders.indexOf(this.orders.find(_ => orderid === _.OrderId))
-  
-  this.orderservice.deleteOrder(orderid).subscribe(t => this.orders.splice(index,1));
+    const index = this.orders.indexOf(this.orders.find(_ => {
+      orderid === _.orderId
+      console.log(_)
+    }))
+    console.log(index)
+    console.log(this.orders)
+    
+  const subscription = this.orderservice.deleteOrder(orderid).subscribe((data) => 
+  {
+    console.log('data')
+  },
+    (error) => {
+      console.log(error)
+    }
+  );
+    subscription.add(()=>{
+      this.orders.splice(index,1)
+    })
 
   }
  
@@ -97,7 +122,7 @@ productsLength: number;
       dialogRef.afterClosed().subscribe(
         data => {
           if(data !== undefined){
-            this.newProduct(data.name, data.price, data.description, data.quantity)
+            this.newProduct(data.name, data.price, data.description, data.quantity, data.image)
           }});
     }
     else {
@@ -116,17 +141,13 @@ productsLength: number;
 
 openDialogEditOrder(order: Order) 
 {
-  
+  console.log(order)
   const dialogConfig = new MatDialogConfig();
   dialogConfig.disableClose = false;
   dialogConfig.autoFocus = true;
   dialogConfig.data = {
     isEdit: true,
-    OrderId: order.OrderId,
-    UserId: order.UserId,
-    OrderDetails: order.OrderDetails,
-    OrderTotal: order.OrderTotal,
-    Shipped: order.Shipped
+    ord : order
   }
   const dialogRef = this.dialog.open(OrderformComponent, dialogConfig)
   dialogRef.afterClosed().subscribe
@@ -135,16 +156,17 @@ openDialogEditOrder(order: Order)
     {
       if(data !== undefined)
       {
+        console.log(data)
         if(data.isDelete === false)
         {
           console.log("saving")
           console.log(data)
-          this.updateProduct(order.OrderId,data.UserId, data.OrderDetails, data.OrderTotal, data.Shipped)
+          this.updateOrder(order.orderId,data.UserId, data.OrderDetails, data.OrderTotal, data.Shipped)
         }
         else 
         {
           console.log("deleting")
-          this.deleteProduct(order.OrderId)
+          this.deleteOrder(data.orderId)
         }
 
       }
@@ -178,7 +200,7 @@ openDialogEdit(product: Product)
         {
           console.log("saving")
           console.log(data)
-          this.updateProduct(product.productsId,data.name, data.description, data.price, data.quantity)
+          this.updateProduct(product.productsId,data.name, data.description, data.price, data.quantity, data.Image)
         }
         else 
         {

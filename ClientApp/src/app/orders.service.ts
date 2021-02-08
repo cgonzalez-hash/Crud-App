@@ -30,7 +30,7 @@ export class OrdersService {
   updateOrder(orderid: number, userid:string, orderdetails: string, ordertotal: string,shipped:boolean): Observable<Order>{
     const Order: Order = 
     {
-    OrderId: orderid,
+    orderId: orderid,
     UserId: userid,
     OrderDetails: orderdetails,
     OrderTotal: ordertotal,
@@ -38,7 +38,7 @@ export class OrdersService {
     
     };
   
-    const url = `${this.ordersUri}/${orderid}`
+    const url = `${this.ordersUri}/${orderid}/Edit`
     return this.http.put<Order>(url, Order)
   }
   
@@ -46,7 +46,7 @@ export class OrdersService {
   {
     const Order: Order = 
     {
-      OrderId: 0,
+      orderId: 0,
       UserId: userid,
       OrderDetails: orderdetails,
       OrderTotal: ordertotal,

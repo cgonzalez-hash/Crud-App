@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using crud_app_take2.Data;
 using crud_app_take2.Models;
+using crud_app_take2.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace crud_app_take2.Controllers
 {
@@ -52,15 +55,25 @@ namespace crud_app_take2.Controllers
 
         // POST: Products/Create
         [HttpPost]
-        public async Task<ActionResult<Products>> Create(Products products)
+        public async Task<ActionResult<Products>> Create([FromForm] ProductViewModel viewModel)
         {
-            
-            
-                _context.Add(products);
+            using (var ms = new MemoryStream())
+            {
+                await viewModel.Image.CopyToAsync(ms);
+                var fileBytes = ms.ToArray();
+                var product = new Products {
+                    Name = viewModel.Name,
+                    Description = viewModel.Description,
+                    Price = viewModel.Price,
+                    QuantityAvailable = viewModel.QuantityAvailable,
+                    Image = fileBytes
+                };
+
+                _context.Add(product);
                 await _context.SaveChangesAsync();
-                 return CreatedAtAction("Details", new { id = products.ProductsId }, products);
+                 return CreatedAtAction("Details", new { id = product.ProductsId }, product);
             
-            
+            }
         }
 
         [HttpPut("{id}")]

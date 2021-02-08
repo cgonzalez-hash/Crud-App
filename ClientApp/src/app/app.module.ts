@@ -31,6 +31,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import { LoadingService } from './loading.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { FilterPipe } from './filter.pipe';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 
 @NgModule({
@@ -42,6 +44,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ShoppingCartComponent,
     ProductsformComponent,
     OrderformComponent,
+    FilterPipe,
 
   ],
   imports: [
@@ -65,6 +68,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatPaginatorModule,
+    MaterialFileInputModule,
     RouterModule.forRoot([
       { path: '', component: ProductsComponent, pathMatch: 'full' },
       { path: 'Admin', component: AdminPanelComponent, canActivate: [AuthorizeGuard] },
@@ -78,7 +82,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptorService, multi:true},
-    LoadingService
+    LoadingService,
+    FilterPipe
   ],
   bootstrap: [AppComponent]
 })

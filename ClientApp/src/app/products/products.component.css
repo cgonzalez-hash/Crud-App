@@ -1,4 +1,6 @@
 .product-card {
     max-width: 400px;
+    float: left;
   }
   mat-card { margin: 10px}
+  mat-card-image { background-size: cover;}

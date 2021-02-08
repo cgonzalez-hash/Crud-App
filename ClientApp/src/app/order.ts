@@ -1,5 +1,5 @@
 export class Order {
-    OrderId: number;
+    orderId: number;
     UserId: string;
     OrderDetails: string = '';
     OrderTotal: string = '';
