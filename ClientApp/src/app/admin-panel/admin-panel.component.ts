@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../product';
 import { ProductsService } from "../products.service";
 import { ProductsformComponent } from "../productsform/productsform.component";
 import { OrderformComponent } from "../orderform/orderform.component";
-import {MatDialog, MatDialogConfig, MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { Order } from "../order";
 import { OrdersService } from "../orders.service";
 import { LoadingService } from '../loading.service';
-import { FilterPipe } from "../filter.pipe";
-import {map, startWith} from 'rxjs/operators';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs';
+import { MatTableDataSource } from "@angular/material/table";
+import { Discount } from "../discount";
+import { DiscountService } from "../discount.service";
+import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
+
 
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css']
+  styleUrls: ['./admin-panel.component.css'],
 })
 export class AdminPanelComponent implements OnInit {
 products: Product[];
@@ -24,10 +25,17 @@ isComplete: boolean;
 list: any[] = [];
 ordersLength: number;
 productsLength: number;
+@ViewChild(TableComponent, {static: false})
+public dataSource: MatTableDataSource<Discount>;
+public DiscountTypeColumnConfig: Array<TableColumnModel>;
+public DiscountTypeTableConfig: TableConfig;
+public lookupTypeTable: TableComponent;
+
+
 
 
   constructor(private productService: ProductsService, private dialog: MatDialog, 
-    private orderservice: OrdersService, private loaderService:LoadingService ) { }
+    private orderservice: OrdersService, private loaderService:LoadingService, private discountService: DiscountService ) { }
 
   ngOnInit() {
     this.getProducts();
@@ -55,6 +63,14 @@ productsLength: number;
       this.ordersLength = this.orders.length;
       console.log(this.orders)
 
+    })
+  }
+  getDiscounts(): void {
+    this.discountService.getDiscounts().subscribe((discount:Discount[]) => {
+    
+        this.dataSource = new MatTableDataSource<Discount>(discount);
+      
+      this.initTable();
     })
   }
   newProduct(name: string, price: number,description:string, quantity:number, image: File): void {
@@ -211,6 +227,24 @@ openDialogEdit(product: Product)
       }
     }
   );
+}
+private initTable(): void {
+
+  this.DiscountTypeColumnConfig = [
+  new TableColumnModel("DiscountId", "Discount Id", true),
+  new TableColumnModel("DiscountName", "Discount Name", false),
+  new TableColumnModel("DiscountDescription", "Discount Description", false),
+  new TableColumnModel("DiscountAmount", "Discount Amount", false)
+  ]
+  this.DiscountTypeTableConfig = new TableConfig(this.DiscountTypeColumnConfig, "Discount","Discount")
+  .setClientDataSource(this.dataSource as any)
+  .setSelectable(false)
+  .setShowSelectButtons(false)
+  .setShowFirstLastButtons(true)
+  .setSortField("DiscountId")
+  .setSortDirection("asc")
+  .setRecordName("Discount Type");
+
 }
 
 

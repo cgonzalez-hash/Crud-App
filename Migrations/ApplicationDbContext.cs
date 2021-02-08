@@ -14,6 +14,7 @@ namespace crud_app_take2.Data
     {
         public DbSet<Order> Orders { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<Discount> Discount { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,

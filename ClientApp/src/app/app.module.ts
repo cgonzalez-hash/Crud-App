@@ -33,6 +33,9 @@ import { LoadingService } from './loading.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FilterPipe } from './filter.pipe';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { KlaMatTableModule } from "@kla-shared/ngx-kla-material-core/table";
+import { NgxKlaMaterialCoreModule } from '@kla-shared/ngx-kla-material-core';
+
 
 
 @NgModule({
@@ -44,7 +47,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     ShoppingCartComponent,
     ProductsformComponent,
     OrderformComponent,
-    FilterPipe,
+    FilterPipe
 
   ],
   imports: [
@@ -53,29 +56,16 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     FormsModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,
-    MatCardModule,
-    MatSliderModule,
-    MatToolbarModule,
-    MatDividerModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    MatPaginatorModule,
     MaterialFileInputModule,
+    KlaMatTableModule,
+    NgxKlaMaterialCoreModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: ProductsComponent, pathMatch: 'full' },
       { path: 'Admin', component: AdminPanelComponent, canActivate: [AuthorizeGuard] },
       { path: 'Cart', component: ShoppingCartComponent},
     ]),
     
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   exports: [MatButtonModule],
   entryComponents: [ProductsformComponent, OrderformComponent],

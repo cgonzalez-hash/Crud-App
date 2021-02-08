@@ -29,6 +29,9 @@
               [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator>
     </mat-tab>
+    <mat-tab label="Discounts">
+        <kla-mat-table #DiscountTypesTable [tableConfig]="DiscountTypeTableConfig"></kla-mat-table>
+    </mat-tab>
 </mat-tab-group>
 
 
