@@ -24,7 +24,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(private productService: ProductsService, 
     private cartProductService: CartproductService, private authService: AuthorizeService, 
-    private _snackBar: MatSnackBar, private loaderService:LoadingService, private domsan:DomSanitizer) { }
+    private _snackBar: MatSnackBar, public loaderService:LoadingService, private domsan:DomSanitizer) { }
 
   ngOnInit() {
     this.getProducts();
@@ -40,7 +40,6 @@ export class ProductsComponent implements OnInit {
     })
   }
   getPhoto(Image: ArrayBuffer) {
-    console.log(Image)
     let array = new Uint8Array(Image)
     const array_string = String.fromCharCode.apply(null,array)
     let base64 = btoa(array_string)

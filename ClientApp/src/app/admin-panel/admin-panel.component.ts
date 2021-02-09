@@ -7,10 +7,10 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { Order } from "../order";
 import { OrdersService } from "../orders.service";
 import { LoadingService } from '../loading.service';
-import { MatTableDataSource } from "@angular/material/table";
+//import { MatTableDataSource } from "@angular/material/table";
 import { Discount } from "../discount";
 import { DiscountService } from "../discount.service";
-import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
+//import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
 
 
 @Component({
@@ -25,17 +25,19 @@ isComplete: boolean;
 list: any[] = [];
 ordersLength: number;
 productsLength: number;
-@ViewChild(TableComponent, {static: false})
-public dataSource: MatTableDataSource<Discount>;
-public DiscountTypeColumnConfig: Array<TableColumnModel>;
-public DiscountTypeTableConfig: TableConfig;
-public lookupTypeTable: TableComponent;
+//@ViewChild(TableComponent)
+//public dataSource: MatTableDataSource<Discount>;
+//public DiscountTypeColumnConfig: Array<TableColumnModel>;
+//public DiscountTypeTableConfig: TableConfig;
+//public lookupTypeTable: TableComponent;
+public term:string;
+
 
 
 
 
   constructor(private productService: ProductsService, private dialog: MatDialog, 
-    private orderservice: OrdersService, private loaderService:LoadingService, private discountService: DiscountService ) { }
+    private orderservice: OrdersService, public loaderService:LoadingService, private discountService: DiscountService ) { }
 
   ngOnInit() {
     this.getProducts();
@@ -68,9 +70,9 @@ public lookupTypeTable: TableComponent;
   getDiscounts(): void {
     this.discountService.getDiscounts().subscribe((discount:Discount[]) => {
     
-        this.dataSource = new MatTableDataSource<Discount>(discount);
+       // this.dataSource = new MatTableDataSource<Discount>(discount);
       
-      this.initTable();
+      //this.initTable();
     })
   }
   newProduct(name: string, price: number,description:string, quantity:number, image: File): void {
@@ -228,7 +230,7 @@ openDialogEdit(product: Product)
     }
   );
 }
-private initTable(): void {
+/*private initTable(): void {
 
   this.DiscountTypeColumnConfig = [
   new TableColumnModel("DiscountId", "Discount Id", true),
@@ -245,7 +247,7 @@ private initTable(): void {
   .setSortDirection("asc")
   .setRecordName("Discount Type");
 
-}
+}*/
 
 
 }

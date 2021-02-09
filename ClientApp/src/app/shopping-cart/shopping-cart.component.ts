@@ -6,9 +6,9 @@ import { Product } from "../product";
 import { ProductsService } from "../products.service";
 import { OrdersService } from "../orders.service";
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, Subject,  of as observableOf } from "rxjs";
 import { LoadingService } from "../loading.service";
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import { CartConfirmComponent } from "../cart-confirm/cart-confirm.component";
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -29,7 +29,7 @@ export class ShoppingCartComponent implements OnInit {
   
 
   constructor(private cartProductService: CartproductService, private authService: AuthorizeService, private productService: ProductsService,
-     private orderService: OrdersService, private _snackBar: MatSnackBar, private loaderService:LoadingService) { }
+     private orderService: OrdersService, private _snackBar: MatSnackBar, public loaderService:LoadingService, private dialog: MatDialog) { }
 
   ngOnInit() {
      
@@ -73,6 +73,25 @@ async getProduct(): Promise<void> {
     this.getCart();
     console.log('done')
   })
+  
+}
+openDialog() {
+
+  const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.data = {
+    total: this.orderTotal
+  }
+
+    const dialogRef = this.dialog.open(CartConfirmComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if(data !== undefined){
+          this.checkOut()
+        }});
+  
   
 }
 deleteProduct(cartProductId: number): void {

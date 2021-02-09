@@ -1,5 +1,5 @@
 <mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
-<mat-tab-group [color]="primary" [backgroundColor]="accent">
+<mat-tab-group>
     <mat-tab label="Products">
         <div>
         <input matInput type="text" [(ngModel)]="term" placeholder="Search">
@@ -22,15 +22,12 @@
         <mat-card *ngFor="let order of orders">
             <div class="titlerow">Order Number {{order.orderId}}<span class="space"></span> <mat-icon (click)="deleteOrder(order.orderId)">delete</mat-icon> <mat-icon (click)="openDialogEditOrder(order)">edit</mat-icon></div>
             <mat-divider></mat-divider>  
-        <div class="titlerow">Shipped: {{order.shipped}}<span class="space"></span> Total: {{order.orderTotal | currency}} </div>
+        <div class="titlerow">Shipped: {{order.Shipped}}<span class="space"></span> Total: {{order.OrderTotal | currency}} </div>
         </mat-card>
         <mat-paginator [length]="ordersLength"
               [pageSize]="10"
               [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator>
-    </mat-tab>
-    <mat-tab label="Discounts">
-        <kla-mat-table #DiscountTypesTable [tableConfig]="DiscountTypeTableConfig"></kla-mat-table>
     </mat-tab>
 </mat-tab-group>
 

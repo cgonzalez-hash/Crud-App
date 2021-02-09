@@ -6,6 +6,6 @@
     <div class="titlerow"><span class="space"></span> Price: {{cart?.price | currency}} </div>
 </mat-card>
 <mat-card >
-   <div class="titlerow">Total: {{orderTotal | currency}} <span class="space"></span><button mat-raised-button color="primary"(click)="checkOut()">checkout</button></div>
+   <div class="titlerow">Total: {{orderTotal | currency}} <span class="space"></span><button mat-raised-button color="primary"(click)="openDialog()">checkout</button></div>
 </mat-card>
 
