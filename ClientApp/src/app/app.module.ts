@@ -21,8 +21,8 @@ import { FilterPipe } from './filter.pipe';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-//import { KlaMatTableModule } from "@kla-shared/ngx-kla-material-core/table";
-//import { NgxKlaMaterialCoreModule } from '@kla-shared/ngx-kla-material-core';
+import { KlaMatTableModule } from "@kla-shared/ngx-kla-material-core/table";
+import { NgxKlaMaterialCoreModule } from '@kla-shared/ngx-kla-material-core';
 import { CartConfirmComponent } from './cart-confirm/cart-confirm.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
@@ -32,6 +32,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatListModule} from '@angular/material/list';
+
+
 
 
 
@@ -62,8 +65,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ApiAuthorizationModule,
     MaterialFileInputModule,
     MatTabsModule,
-   // KlaMatTableModule,
-    //NgxKlaMaterialCoreModule.forRoot(),
+    KlaMatTableModule,
+    NgxKlaMaterialCoreModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: ProductsComponent, pathMatch: 'full' },
       { path: 'Admin', component: AdminPanelComponent, canActivate: [AuthorizeGuard] },
@@ -79,7 +82,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatFormFieldModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatListModule
     
   ],
   exports: [MatButtonModule],

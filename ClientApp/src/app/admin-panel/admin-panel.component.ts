@@ -7,10 +7,11 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { Order } from "../order";
 import { OrdersService } from "../orders.service";
 import { LoadingService } from '../loading.service';
-//import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource } from "@angular/material/table";
 import { Discount } from "../discount";
 import { DiscountService } from "../discount.service";
-//import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
+import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 
 @Component({
@@ -25,11 +26,11 @@ isComplete: boolean;
 list: any[] = [];
 ordersLength: number;
 productsLength: number;
-//@ViewChild(TableComponent)
-//public dataSource: MatTableDataSource<Discount>;
-//public DiscountTypeColumnConfig: Array<TableColumnModel>;
-//public DiscountTypeTableConfig: TableConfig;
-//public lookupTypeTable: TableComponent;
+@ViewChild(TableComponent)
+public dataSource: MatTableDataSource<Discount>;
+public DiscountTypeColumnConfig: Array<TableColumnModel>;
+public DiscountTypeTableConfig: TableConfig;
+public lookupTypeTable: TableComponent;
 public term:string;
 
 
@@ -40,11 +41,27 @@ public term:string;
     private orderservice: OrdersService, public loaderService:LoadingService, private discountService: DiscountService ) { }
 
   ngOnInit() {
+    this.discountService.getDiscounts().subscribe((discount:Discount[]) => { 
+        this.dataSource = new MatTableDataSource<Discount>(discount);
+        this.initTable();
+  })
     this.getProducts();
     this.getOrders();
+    
+   
  
   }
+  onChange(event: MatTabChangeEvent) {
+    const tab = event.tab.textLabel;
+    console.log(tab);
+    if(tab==="Discounts")
+    {
+      console.log("Data source");
+      console.log(this.dataSource)
+      this.initTable();
 
+     }
+  }
   getProducts(): void
    {
     this.productService.getProducts().subscribe(_ => {
@@ -65,14 +82,6 @@ public term:string;
       this.ordersLength = this.orders.length;
       console.log(this.orders)
 
-    })
-  }
-  getDiscounts(): void {
-    this.discountService.getDiscounts().subscribe((discount:Discount[]) => {
-    
-       // this.dataSource = new MatTableDataSource<Discount>(discount);
-      
-      //this.initTable();
     })
   }
   newProduct(name: string, price: number,description:string, quantity:number, image: File): void {
@@ -230,24 +239,21 @@ openDialogEdit(product: Product)
     }
   );
 }
-/*private initTable(): void {
+private async initTable(): Promise<void> {
 
-  this.DiscountTypeColumnConfig = [
-  new TableColumnModel("DiscountId", "Discount Id", true),
-  new TableColumnModel("DiscountName", "Discount Name", false),
-  new TableColumnModel("DiscountDescription", "Discount Description", false),
-  new TableColumnModel("DiscountAmount", "Discount Amount", false)
-  ]
-  this.DiscountTypeTableConfig = new TableConfig(this.DiscountTypeColumnConfig, "Discount","Discount")
-  .setClientDataSource(this.dataSource as any)
-  .setSelectable(false)
-  .setShowSelectButtons(false)
-  .setShowFirstLastButtons(true)
-  .setSortField("DiscountId")
+
+  this.DiscountTypeColumnConfig = new Array<TableColumnModel>();
+  this.DiscountTypeColumnConfig.push(new TableColumnModel("discountId", "Discount Id", false))
+  this.DiscountTypeColumnConfig.push(new TableColumnModel("discountName", "Discount Name", false))
+  this.DiscountTypeColumnConfig.push(new TableColumnModel("discountDescription", "Discount Description", false))
+  this.DiscountTypeColumnConfig.push(new TableColumnModel("discountAmount", "Discount Amount", false))
+  this.DiscountTypeTableConfig = new TableConfig(this.DiscountTypeColumnConfig, null, null)
+  .setClientDataSource(this.dataSource)
+  .setSortField("discountId")
   .setSortDirection("asc")
-  .setRecordName("Discount Type");
-
-}*/
+  .setRecordName("Discount Type")
+  .setNoRecordsFoundMessage("Nothing found: There are no discounts to display.")
+}
 
 
 }

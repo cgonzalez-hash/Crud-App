@@ -1,1 +1,7 @@
-<p>cart-confirm works!</p>
+<h2 mat-dialog-title>Please Confirm Order</h2>
+<mat-dialog-content>
+Order Total: {{data.total | currency }}
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="mat-raised-button mat-primary"(click)="confirm()">Confirm</button>
+</mat-dialog-actions>

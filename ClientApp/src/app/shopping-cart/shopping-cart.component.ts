@@ -9,6 +9,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { LoadingService } from "../loading.service";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { CartConfirmComponent } from "../cart-confirm/cart-confirm.component";
+import { DiscountService } from "../discount.service";
+import { Discount } from "../discount";
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -26,10 +28,12 @@ export class ShoppingCartComponent implements OnInit {
   cartProductId: number,  UserId: string,
   productId: number}>
   orderTotal: string;
-  
+  discounts: Discount[];
+  selectedDiscount:number;
+    
 
   constructor(private cartProductService: CartproductService, private authService: AuthorizeService, private productService: ProductsService,
-     private orderService: OrdersService, private _snackBar: MatSnackBar, public loaderService:LoadingService, private dialog: MatDialog) { }
+     private orderService: OrdersService, private _snackBar: MatSnackBar, public loaderService:LoadingService, private dialog: MatDialog, private discountService: DiscountService) { }
 
   ngOnInit() {
      
@@ -46,6 +50,11 @@ export class ShoppingCartComponent implements OnInit {
     auth.add(() => {
       console.log('done')
     })
+    this.discountService.getDiscounts().subscribe(_ => { 
+      console.log(_)
+      this.discounts = _;
+     
+})
   }
     
 async getCart(): Promise<void> {
@@ -53,9 +62,22 @@ async getCart(): Promise<void> {
   this.cartProductService.getCartProduct(this.userid).subscribe(_=>{
     this.carts = _;
     this.filterProduct();
-    this.orderTotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
-      return a + b
-    }).toString();
+      if(this.selectedDiscount = null)
+      {
+        this.orderTotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
+          return a + b
+        }).toString();
+
+      }
+      else {
+        this.orderTotal = (this.cartProducts.map(a => a.price).reduce(function(a,b){
+          return a + b
+        }) - this.selectedDiscount).toString();
+        console.log(this.orderTotal)
+      }
+    
+    
+    
     
   })
 }
@@ -107,10 +129,12 @@ checkOut(): void {
   const ordertotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
     return a + b
   }).toString();
+
   const orderdetails = JSON.stringify(this.cartProducts);
   console.log(ordertotal)
-  const subscription = this.orderService.postOrder(orderdetails,this.userid,ordertotal).subscribe((data) => {
+  const subscription = this.orderService.postOrder(orderdetails,this.userid,this.orderTotal).subscribe((data) => {
     console.log(data)
+    this.orderTotal = '0'
     this._snackBar.open('Order Placed Succesfully', 'Close', {
       duration: 5000,
     });
@@ -145,6 +169,16 @@ checkOut(): void {
  });
 this.cartProducts = newData
 
+}
+onChange(event) {
+  const discountAmount = event[0];
+  
+  this.orderTotal = (this.cartProducts.map(a => a.price).reduce(function(a,b){
+    return a + b
+  }) - discountAmount).toString();
+    console.log(this.orderTotal)
+
+   
 }
 
 }

@@ -28,6 +28,7 @@
     "@angular/platform-server": "9.1.13",
     "@angular/router": "9.1.13",
     "@nguniversal/module-map-ngfactory-loader": "8.1.1",
+    "@kla-shared/ngx-kla-material-core": "5.0.0-DEV-25.0",
     "@nicky-lenaers/ngx-scroll-to": "^3.0.1",
     "angular2-text-mask": "9.0.0",
     "aspnet-prerendering": "^3.0.1",
