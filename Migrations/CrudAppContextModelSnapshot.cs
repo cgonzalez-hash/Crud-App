@@ -389,6 +389,19 @@ namespace crud_app_take2.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("crud_app_take2.Models.OrderProduct", b =>
+                {
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.ToTable("OrderProduct");
+                });
+
             modelBuilder.Entity("crud_app_take2.Models.Products", b =>
                 {
                     b.Property<long>("ProductsId")

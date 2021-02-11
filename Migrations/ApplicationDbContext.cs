@@ -15,7 +15,7 @@ namespace crud_app_take2.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Products> Products { get; set; }
         public DbSet<Discount> Discount { get; set; }
-
+        public DbSet<OrderProduct> OrderProduct { get; set; }
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
@@ -23,5 +23,14 @@ namespace crud_app_take2.Data
         }
 
         public DbSet<crud_app_take2.Models.CartProduct> CartProduct { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<OrderProduct>().HasKey(op=> new {op.OrderId, op.ProductId});
+        
+        }
+
+        
     }
 }
