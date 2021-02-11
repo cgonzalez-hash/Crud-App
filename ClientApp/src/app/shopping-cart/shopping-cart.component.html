@@ -1,6 +1,8 @@
 
 <mat-spinner *ngIf="loaderService.loading$ | async"></mat-spinner>
-
+<mat-card *ngIf="cartProducts?.length == 0">
+    <p>Cart Is Empty</p>
+</mat-card>
 <mat-card *ngFor="let cart of cartProducts" class="cart">  
     <div class="titlerow">{{cart?.name}}<span class="space"></span> <mat-icon (click)="deleteProduct(cart.cartProductId)">delete</mat-icon></div>
     <mat-divider></mat-divider>  
@@ -17,6 +19,6 @@
     <ng-container *ngIf="selectedDiscount">
         <div>Discount Amount: {{ selectedDiscount.toString() | currency}}</div>
     </ng-container>
-   <div class="titlerow">Total: {{orderTotal}} <span class="space"></span><button mat-raised-button color="primary"(click)="openDialog()">checkout</button></div>
+   <div class="titlerow">Total: {{orderTotal | currency}} <span class="space"></span><button mat-raised-button color="primary"(click)="openDialog()">checkout</button></div>
 </mat-card>
 

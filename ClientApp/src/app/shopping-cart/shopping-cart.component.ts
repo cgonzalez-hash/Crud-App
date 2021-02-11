@@ -29,7 +29,7 @@ export class ShoppingCartComponent implements OnInit {
   quantityAvailable: number,
   cartProductId: number,  UserId: string,
   productId: number}>
-  orderTotal: string;
+  orderTotal: string = '0';
   discounts: Discount[];
   selectedDiscount:number;
     
@@ -73,9 +73,12 @@ async getCart(): Promise<void> {
 
       }
       else {
-        this.orderTotal = (this.cartProducts.map(a => a.price).reduce(function(a,b){
+        if(this.cartProducts.length != 0){
+          this.orderTotal = (this.cartProducts.map(a => a.price).reduce(function(a,b){
           return a + b
         }) - this.selectedDiscount).toString();
+        }
+        
         console.log(this.orderTotal)
       }
     
@@ -130,9 +133,11 @@ this.cartProducts.splice(index, 1);
 checkOut(): void {
  
   //turn into function check for data first
-  const ordertotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
-    return a + b
-  }).toString();
+  if(this.cartProducts.length != 0){
+    const ordertotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
+      return a + b
+    }).toString();
+  }
 //add image property to prod table,  exclude when stringify.
   const orderdetails = '';
   const subscription = this.orderService.postOrder(orderdetails,this.userid,this.orderTotal).subscribe((data) => {
@@ -179,10 +184,10 @@ this.cartProducts = newData
 }
 onChange(event) {
   const discountAmount = event[0];
-  
+  if(this.cartProducts.length != 0){
   this.orderTotal = (this.cartProducts.map(a => a.price).reduce(function(a,b){
     return a + b
-  }) - discountAmount).toString();
+  }) - discountAmount).toString();}
     console.log(this.orderTotal)
 
    

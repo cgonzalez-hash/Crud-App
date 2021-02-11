@@ -92,8 +92,6 @@ opened: boolean;
     )
     subscription.add(()=>{
       this.ordersLength = this.orders.length;
-      console.log(this.orders)
-
     })
   }
   newProduct(name: string, price: number,description:string, quantity:number, image: File): void {
@@ -179,30 +177,40 @@ getSideNavDetails(orderid: number){
   
   
   let productorder = this.orderProducts.filter(i=> i.orderId === orderid)
-  let filtered = this.products.forEach(_ =>{
+  console.log(productorder)
+   this.products.forEach(_ =>{
         productorder.forEach(order => {
-      if(_.productsId === order.productId){
-        console.log(_)
+        console.log(order)
+        console.log(_.productsId)
+        console.log(order.productId)
+      if(_.productsId == order.productId){
+        console.log('true')
         
-        if(this.orderProdList === undefined || this.orderProdList.length == 0){
+        if(this.orderProdList == undefined || this.orderProdList.length == 0){
+          console.log('test')
           this.orderProdList.push({'ProductName': _.name, 'ProductQuantity': 1})
         }
         else {
           this.orderProdList.forEach(prodlist => {
             if(_.name === prodlist.ProductName){
+              console.log('test2')
               prodlist.ProductQuantity++
             }  
             else {
+              console.log('test3')
               this.orderProdList.push({'ProductName': _.name, 'ProductQuantity': 1})
             }
           })
         }  
       }
-      this.opened = true;
     })
   })
 console.log(this.orderProdList)
+this.opened = true;
 
+}
+sideNavClose(): void{
+  this.orderProdList = [];
 }
 
 openDialogEditOrder(order: Order) 

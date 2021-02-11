@@ -19,15 +19,15 @@
         </mat-paginator>
     </mat-tab>
     <mat-tab label="Orders">
-        <mat-drawer-container class="orders-container" [hasBackdrop]=true *ngFor="let order of orders">
-        <mat-drawer #sidenav mode="side" [(opened)]="opened">
+        <mat-drawer-container class="orders-container" [hasBackdrop]=true >
+        <mat-drawer #sidenav mode="side" [(opened)]="opened" (closed)="sideNavClose()">
             <mat-card *ngFor="let prod of orderProdList">
                 <div>Quantity: {{prod.ProductQuantity}}</div>
                 <div>Product Name: {{prod.ProductName}}</div>
             </mat-card>
         </mat-drawer>
         <mat-drawer-content >
-            <mat-card>
+            <mat-card *ngFor="let order of orders">
                 <div class="titlerow">Order Number {{order.orderId}}<span class="space"></span> <mat-icon (click)="getSideNavDetails(order.orderId)">details</mat-icon> <mat-icon (click)="deleteOrder(order.orderId)">delete</mat-icon> <mat-icon (click)="openDialogEditOrder(order)">edit</mat-icon></div>
                 <mat-divider></mat-divider>  
             <div class="titlerow">Shipped: {{order.shipped}}<span class="space"></span> Total: {{order.orderTotal | currency}} </div>
