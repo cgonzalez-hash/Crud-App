@@ -11,6 +11,8 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import { CartConfirmComponent } from "../cart-confirm/cart-confirm.component";
 import { DiscountService } from "../discount.service";
 import { Discount } from "../discount";
+import { OrderProducts } from "../orderproducts";
+import { OrderProductsproductService } from "../orderproduct.service";
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -33,7 +35,8 @@ export class ShoppingCartComponent implements OnInit {
     
 
   constructor(private cartProductService: CartproductService, private authService: AuthorizeService, private productService: ProductsService,
-     private orderService: OrdersService, private _snackBar: MatSnackBar, public loaderService:LoadingService, private dialog: MatDialog, private discountService: DiscountService) { }
+     private orderService: OrdersService, private _snackBar: MatSnackBar, public loaderService:LoadingService, private dialog: MatDialog, private discountService: DiscountService,
+     private orderProductService: OrderProductsproductService) { }
 
   ngOnInit() {
      
@@ -125,21 +128,25 @@ this.cartProducts.splice(index, 1);
 
 }
 checkOut(): void {
-  console.log("test")
+ 
+  //turn into function check for data first
   const ordertotal = this.cartProducts.map(a => a.price).reduce(function(a,b){
     return a + b
   }).toString();
-
-  const orderdetails = JSON.stringify(this.cartProducts);
-  console.log(ordertotal)
+//add image property to prod table,  exclude when stringify.
+  const orderdetails = '';
   const subscription = this.orderService.postOrder(orderdetails,this.userid,this.orderTotal).subscribe((data) => {
-    console.log(data)
+    let index = data.lastIndexOf(data.slice(-1)[0])
+    console.log(index)
+    this.cartProducts.forEach(x =>{
+      this.orderProductService.postOrderProducts(data[index].orderId, x.productId).subscribe(_ => {
+        console.log(_);
+      })
+    })
     this.orderTotal = '0'
     this._snackBar.open('Order Placed Succesfully', 'Close', {
       duration: 5000,
     });
-
-
   },
   (error) => {
     console.log(error)
@@ -151,7 +158,7 @@ checkOut(): void {
 )
   subscription.add(() =>  {  
       console.log('Order Complete');
-      this.cartProducts =[]
+      this.cartProducts = []
     this.carts.forEach(_ => {
       console.log(_.cartProductId)
       this.cartProductService.deleteCartProduct(_.cartProductId).subscribe();

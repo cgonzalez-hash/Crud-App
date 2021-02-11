@@ -12,6 +12,8 @@ import { Discount } from "../discount";
 import { DiscountService } from "../discount.service";
 import { TableColumnModel, TableComponent, TableConfig } from '@kla-shared/ngx-kla-material-core/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { OrderProductsproductService } from "../orderproduct.service";
+import { OrderProducts } from "../orderproducts";
 
 
 @Component({
@@ -21,6 +23,11 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 })
 export class AdminPanelComponent implements OnInit {
 products: Product[];
+orderProducts: OrderProducts[];
+orderProdList: Array<{
+  ProductName: string
+  ProductQuantity: number
+}> = [];
 orders: Order[];
 isComplete: boolean;
 list: any[] = [];
@@ -32,18 +39,23 @@ public DiscountTypeColumnConfig: Array<TableColumnModel>;
 public DiscountTypeTableConfig: TableConfig;
 public lookupTypeTable: TableComponent;
 public term:string;
+opened: boolean;
 
 
 
 
 
   constructor(private productService: ProductsService, private dialog: MatDialog, 
-    private orderservice: OrdersService, public loaderService:LoadingService, private discountService: DiscountService ) { }
+    private orderservice: OrdersService, public loaderService:LoadingService, private discountService: DiscountService, 
+    private orderProductService:OrderProductsproductService ) { }
 
   ngOnInit() {
     this.discountService.getDiscounts().subscribe((discount:Discount[]) => { 
         this.dataSource = new MatTableDataSource<Discount>(discount);
         this.initTable();
+  })
+  this.orderProductService.getOrderProducts().subscribe(_=> {
+    this.orderProducts = _
   })
     this.getProducts();
     this.getOrders();
@@ -105,25 +117,23 @@ public term:string;
 
   }
   deleteProduct(productid: number): void {
+    console.log(this.products)
     const index = this.products.indexOf(this.products.find(_ => {
       productid === _.productsId
       console.log
     }))
   console.log(index)
   this.productService.deleteProduct(productid).subscribe(t => this.products.splice(index,1));
-
   }
   deleteOrder(orderid: number): void {
     const index = this.orders.indexOf(this.orders.find(_ => {
       orderid === _.orderId
-      console.log(_)
     }))
     console.log(index)
-    console.log(this.orders)
+
     
   const subscription = this.orderservice.deleteOrder(orderid).subscribe((data) => 
   {
-    console.log('data')
   },
     (error) => {
       console.log(error)
@@ -164,7 +174,36 @@ public term:string;
 
     
 }
+getSideNavDetails(orderid: number){
+  console.log(orderid)
+  
+  
+  let productorder = this.orderProducts.filter(i=> i.orderId === orderid)
+  let filtered = this.products.forEach(_ =>{
+        productorder.forEach(order => {
+      if(_.productsId === order.productId){
+        console.log(_)
+        
+        if(this.orderProdList === undefined || this.orderProdList.length == 0){
+          this.orderProdList.push({'ProductName': _.name, 'ProductQuantity': 1})
+        }
+        else {
+          this.orderProdList.forEach(prodlist => {
+            if(_.name === prodlist.ProductName){
+              prodlist.ProductQuantity++
+            }  
+            else {
+              this.orderProdList.push({'ProductName': _.name, 'ProductQuantity': 1})
+            }
+          })
+        }  
+      }
+      this.opened = true;
+    })
+  })
+console.log(this.orderProdList)
 
+}
 
 openDialogEditOrder(order: Order) 
 {

@@ -33,6 +33,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatListModule} from '@angular/material/list';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 
@@ -83,7 +84,10 @@ import {MatListModule} from '@angular/material/list';
     MatFormFieldModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    MatListModule
+    MatListModule,
+    MatSidenavModule
+
+    
     
   ],
   exports: [MatButtonModule],

@@ -23,7 +23,7 @@ export class LoadingInterceptorService implements HttpInterceptor {
         }
 
         this.activeRequests++;
-        return timer(500).pipe( switchMap( ()=>  next.handle(request).pipe(
+        return timer(0).pipe( switchMap( ()=>  next.handle(request).pipe(
     finalize(() => {
         this.activeRequests--;
         if (this.activeRequests === 0) {
